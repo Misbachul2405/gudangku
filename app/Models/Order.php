@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Enums\OrderStatus;
+use Illuminate\Traits\HasScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -12,6 +15,11 @@ class Order extends Model
     protected $fillable= ['user_id', 'quantity', 'status', 'image', 'unit', 'name'];
 
     protected $casts = [ 'status'=> OrderStatus::class];
+
+    protected function image(): Attribute
+    {
+        return Attribute::make ( get: fn($image) => asset('storage/orders/'.$image),);
+    }
 
     public function user()
     {
